@@ -57,6 +57,9 @@
         private static function createXMLElement(DOMDocument $dom, DOMElement $el, array $ar)
         {
             foreach ($ar as $tag => $value) {
+                if (is_numeric($tag)) {
+                    $tag = 'item' . $tag;
+                }
                 if (is_array($value)) {
                     $$tag = $el->appendChild($dom->createElement($tag));
                     self::createXMLElement($dom, $$tag, $value);
