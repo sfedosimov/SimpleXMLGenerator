@@ -1,16 +1,16 @@
 <?php
 
     /**
-     * Class SimpleXMLGenerator
+     * Class SimpleXMLTool
      * Tool to generate a simple XML document
      *
      * @author    Sergey Fedosimov
      * @copyright 2015 Sergey Fedosimov
      */
-    class SimpleXMLGenerator
+    class SimpleXMLTool
     {
         /**
-         * Генерация XML
+         * Get XML by Array
          *
          * @param array $ar
          * @param array $options []
@@ -46,7 +46,8 @@
         }
 
         /**
-         * Recursive function for generating node
+         * Recursive function for generating node.
+         * Numeric tag add prefix 'item'
          *
          * @param DOMDocument $dom
          * @param DOMElement  $el
@@ -69,5 +70,45 @@
             }
 
             return $el;
+        }
+
+        /**
+         * Get SimpleXMLElement where merge CDATA as text nodes
+         *
+         * @param string $xml
+         *
+         * @return SimpleXMLElement
+         */
+        private static function getXMLNOCDATA($xml)
+        {
+            return simplexml_load_string($xml, "SimpleXMLElement", LIBXML_NOCDATA);
+        }
+
+        /**
+         * Get Array by XML
+         *
+         * @param string $xml
+         *
+         * @return mixed
+         */
+        public static function XMLtoArr($xml)
+        {
+            $json = self::XMLtoJSON($xml);
+
+            return json_decode($json, true);
+        }
+
+        /**
+         * Get JSON by XML
+         *
+         * @param string $xml
+         *
+         * @return string
+         */
+        public static function XMLtoJSON($xml)
+        {
+            $xml_obj = self::getXMLNOCDATA($xml);
+
+            return json_encode($xml_obj);
         }
     }

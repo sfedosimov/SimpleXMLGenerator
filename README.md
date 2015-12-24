@@ -1,2 +1,2 @@
-# SimpleXMLGenerator
-SimpleXMLGenerator - tool to generate a simple XML document
+# SimpleXMLTool
+SimpleXMLTool - tool to generate a simple XML document, convert XML to Array and JSON
