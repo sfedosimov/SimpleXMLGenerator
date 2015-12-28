@@ -24,7 +24,6 @@
          */
         public static function createXML(array $ar, $options = array())
         {
-
             $root_tag = (isset($options['root_tag'])) ? $options['root_tag'] : 'root';
             $format = (isset($options['format'])) ? $options['format'] : true;
             $version = (isset($options['version'])) ? $options['version'] : '1.0';
@@ -47,23 +46,23 @@
 
         /**
          * Recursive function for generating node.
-         * Numeric tag add prefix 'item'
          *
          * @param DOMDocument $dom
          * @param DOMElement  $el
          * @param array       $ar
          *
+         * @param null        $last
+         *
          * @return DOMElement
          */
-        private static function createXMLElement(DOMDocument $dom, DOMElement $el, array $ar)
+        private static function createXMLElement(DOMDocument $dom, DOMElement $el, array $ar, $last = null)
         {
             foreach ($ar as $tag => $value) {
-                if (is_numeric($tag)) {
-                    $tag = 'item' . $tag;
-                }
+                $tag = is_numeric($tag) ? $last : $tag;
+
                 if (is_array($value)) {
-                    $$tag = $el->appendChild($dom->createElement($tag));
-                    self::createXMLElement($dom, $$tag, $value);
+                    $$tag = (!self::isNumIndex($value)) ? $el->appendChild($dom->createElement($tag)) : $el;
+                    self::createXMLElement($dom, $$tag, $value, $tag);
                 } else {
                     $el->appendChild($dom->createElement($tag, $value));
                 }
@@ -71,6 +70,25 @@
 
             return $el;
         }
+
+        /**
+         * Checks array keys
+         *
+         * @param array $ar
+         *
+         * @return bool
+         */
+        private function isNumIndex(array $ar)
+        {
+            foreach ($ar as $key => $value) {
+                if (is_numeric($key)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 
         /**
          * Get SimpleXMLElement where merge CDATA as text nodes
