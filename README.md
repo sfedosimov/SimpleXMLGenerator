@@ -48,13 +48,26 @@ out:
       <val1>111</val1>
       <val2>222</val2>
       <val3>333</val3>
-      <item0>500</item0>
       <container>
         <mystr>test test</mystr>
         <myobj>
           <x>250</x>
           <y>150</y>
           <name>objName</name>
+          <wtfs>
+            <wtf>
+              <x>111</x>
+              <y>111</y>
+            </wtf>
+            <wtf>
+              <x>222</x>
+              <y>222</y>
+            </wtf>
+            <wtf>
+              <x>333</x>
+              <y>333</y>
+            </wtf>
+          </wtfs>
         </myobj>
       </container>
     </root>
